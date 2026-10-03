@@ -31,6 +31,21 @@ jobs:
           mv gradle-8.7 /opt/gradle-8.7
           ln -sf /opt/gradle-8.7/bin/gradle /usr/local/bin/gradle
 
+      - name: Generate Valid Icons
+        run: |
+          sudo apt-get update -y && sudo apt-get install -y imagemagick
+          for dpi in mdpi hdpi xhdpi xxhdpi xxxhdpi; do
+            case $dpi in
+              mdpi) size=48 ;;
+              hdpi) size=72 ;;
+              xhdpi) size=96 ;;
+              xxhdpi) size=144 ;;
+              xxxhdpi) size=192 ;;
+            esac
+            convert -size ${size}x${size} xc:"#FE2C55" -fill white -gravity center -pointsize $((size/2)) -annotate +0+0 "抖" app/src/main/res/mipmap-$dpi/ic_launcher.png
+            cp app/src/main/res/mipmap-$dpi/ic_launcher.png app/src/main/res/mipmap-$dpi/ic_launcher_round.png
+          done
+
       - name: Build Release APK
         run: gradle assembleRelease --no-daemon
 
