@@ -18,15 +18,21 @@ jobs:
           java-version: '21'
 
       - name: Accept Android SDK Licenses
-        run: |
-          yes | /usr/local/lib/android/sdk/cmdline-tools/latest/bin/sdkmanager --licenses
+        run: yes | /usr/local/lib/android/sdk/cmdline-tools/latest/bin/sdkmanager --licenses
 
       - name: Install Android SDK Platform & Build Tools
+        run: /usr/local/lib/android/sdk/cmdline-tools/latest/bin/sdkmanager "platforms;android-34" "build-tools;34.0.0"
+
+      - name: Install Gradle
         run: |
-          /usr/local/lib/android/sdk/cmdline-tools/latest/bin/sdkmanager "platforms;android-34" "build-tools;34.0.0"
+          wget -q https://services.gradle.org/distributions/gradle-8.7-bin.zip
+          unzip -q gradle-8.7-bin.zip
+          rm gradle-8.7-bin.zip
+          mv gradle-8.7 /opt/gradle-8.7
+          ln -sf /opt/gradle-8.7/bin/gradle /usr/local/bin/gradle
 
       - name: Build Release APK
-        run: ./gradlew assembleRelease --no-daemon
+        run: gradle assembleRelease --no-daemon
 
       - name: Create GitHub Release
         uses: actions/create-release@v1
