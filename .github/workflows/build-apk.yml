@@ -17,14 +17,13 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v2
+      - name: Accept Android SDK Licenses
+        run: |
+          yes | /usr/local/lib/android/sdk/cmdline-tools/latest/bin/sdkmanager --licenses
 
-      - name: Accept Licenses
-        run: yes | sdkmanager --licenses
-
-      - name: Install SDK Components
-        run: sdkmanager "platforms;android-34" "build-tools;34.0.0"
+      - name: Install Android SDK Platform & Build Tools
+        run: |
+          /usr/local/lib/android/sdk/cmdline-tools/latest/bin/sdkmanager "platforms;android-34" "build-tools;34.0.0"
 
       - name: Build Release APK
         run: ./gradlew assembleRelease --no-daemon
