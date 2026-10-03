@@ -83,14 +83,14 @@ object ProxyUtils {
             readTimeout = 30000
             useCaches = false
             doInput = true
-            requestProperty("User-Agent", "Mozilla/5.0 (Linux; Android 10) DysyncApp/1.1")
-            requestProperty("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8")
-            requestProperty("Accept-Language", "zh-CN,zh;q=0.9,en;q=0.8")
+            setRequestProperty("User-Agent", "Mozilla/5.0 (Linux; Android 10) DysyncApp/1.1")
+            setRequestProperty("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8")
+            setRequestProperty("Accept-Language", "zh-CN,zh;q=0.9,en;q=0.8")
         }
 
         if (conn is HttpsURLConnection) {
             conn.sslSocketFactory = TRUST_ALL_SSL_CONTEXT.socketFactory
-            conn.hostnameVerifier = { _, _ -> true }
+            conn.hostnameVerifier = javax.net.ssl.HostnameVerifier { _, _ -> true }
         }
 
         return conn as HttpURLConnection
