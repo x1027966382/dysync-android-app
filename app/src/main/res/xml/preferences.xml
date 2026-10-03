@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        android:title="🌐 连接设置"
+        app:key="cat_connection">
+
+        <EditTextPreference
+            android:key="target_url"
+            android:title="目标地址 (NAS Web UI)"
+            android:summary="抖小云 Web 界面地址"
+            android:dialogTitle="输入目标地址"
+            android:inputType="textUri"
+            android:defaultValue="http://192.168.5.9:10101"
+            app:useSimpleSummaryProvider="true" />
+
+        <SwitchPreferenceCompat
+            android:key="proxy_enabled"
+            android:title="启用 HTTP 代理"
+            android:summary="通过代理访问 NAS（适用于需翻墙/内网穿透场景）"
+            android:defaultValue="false" />
+
+        <EditTextPreference
+            android:key="proxy_host"
+            android:title="代理主机"
+            android:summary="代理服务器 IP 或域名"
+            android:dialogTitle="代理主机"
+            android:inputType="textUri"
+            android:defaultValue="192.168.5.9"
+            app:useSimpleSummaryProvider="true"
+            android:enabled="false" />
+
+        <EditTextPreference
+            android:key="proxy_port"
+            android:title="代理端口"
+            android:summary="代理服务器端口"
+            android:dialogTitle="代理端口"
+            android:inputType="number"
+            android:defaultValue="7890"
+            app:useSimpleSummaryProvider="true"
+            android:enabled="false" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="ℹ️ 关于"
+        app:key="cat_about">
+
+        <Preference
+            android:key="pref_version"
+            android:title="版本"
+            android:summary="1.1.0"
+            android:selectable="false" />
+
+        <Preference
+            android:key="pref_github"
+            android:title="项目源码"
+            android:summary="https://github.com/jianzhichu/dysync.net"
+            android:selectable="true" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

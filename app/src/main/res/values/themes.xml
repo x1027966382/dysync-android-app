@@ -1,0 +1,14 @@
+<resources>
+    <style name="Theme.Dysync" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">#FE2C55</item>
+        <item name="colorPrimaryVariant">#E0254B</item>
+        <item name="colorOnPrimary">@android:color/white</item>
+        <item name="colorSecondary">#FE2C55</item>
+        <item name="colorSecondaryVariant">#E0254B</item>
+        <item name="colorOnSecondary">@android:color/white</item>
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+    </style>
+
+    <style name="Theme.Dysync.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar" />
+    <style name="Theme.Dysync.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light" />
+</resources>
