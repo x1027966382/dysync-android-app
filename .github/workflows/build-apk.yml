@@ -46,7 +46,18 @@ jobs:
             cp app/src/main/res/mipmap-$dpi/ic_launcher.png app/src/main/res/mipmap-$dpi/ic_launcher_round.png
           done
 
+      - name: Generate Signing Keystore
+        run: |
+          keytool -genkey -v -keystore ci-release.keystore -keyalg RSA -keysize 2048 \
+            -validity 36500 -storepass dysync123 -keypass dysync123 \
+            -alias dysync -dname "CN=Dysync,OU=Dev,O=DysyncApp,C=CN" \
+            -sigalg SHA256withRSA
+
       - name: Build Release APK
+        env:
+          CI_KEYSTORE_PATH: ci-release.keystore
+          CI_KEYSTORE_PASSWORD: dysync123
+          CI_KEY_PASSWORD: dysync123
         run: gradle assembleRelease --no-daemon
 
       - name: Upload APK as Artifact
