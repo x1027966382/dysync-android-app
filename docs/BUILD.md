@@ -155,6 +155,20 @@ android {
 ./gradlew assembleRelease
 ```
 
+### Android 17 / HyperOS 安装问题
+
+**症状**：APK 安装后无法打开（小米 15 / HyperOS / Android 17）。
+
+**原因**：
+1. `targetSdk = 34` 太低，Android 17 对低 targetSdk 应用的兼容性处理不同
+2. `AndroidManifest.xml` 中 `package="..."` 属性已废弃（AGP 8+ 不再支持）
+3. `network_security_config.xml` 中 `base-config` 的 `cleartextTrafficPermitted="false"` 会阻止 HTTP 流量
+
+**修复**（commit `b422acf`）：
+- `compileSdk` / `targetSdk` 34 → 35
+- 删除 manifest 中的 `package` 属性
+- `base-config` 的 `cleartextTrafficPermitted` 改为 `true`
+
 ### 检查 APK 内容
 
 ```bash
