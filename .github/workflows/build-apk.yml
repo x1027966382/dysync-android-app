@@ -58,7 +58,7 @@ jobs:
         with:
           tag_name: v1.0.0
           release_name: DysyncApp v1.0.0
-          draft: false
+          draft: true
           prerelease: false
 
       - name: Upload APK to Release
