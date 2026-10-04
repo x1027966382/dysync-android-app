@@ -15,8 +15,6 @@ import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
 import android.webkit.*
-import android.webkit.SslError
-import android.webkit.SslErrorHandler
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -175,10 +173,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 
-            @SuppressLint("TrustAllX509TrustManager")
-            override fun onReceivedSslError(view: WebView?, handler: SslErrorHandler?, error: SslError?) {
-                handler?.proceed()
-            }
         }
 
         WebView.setDownloadListener { url, userAgent, contentDisposition, mimeType, contentLength ->
