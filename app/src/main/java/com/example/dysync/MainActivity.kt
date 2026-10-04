@@ -181,7 +181,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        webView.downloadListener = DownloadListener { url, userAgent, contentDisposition, mimeType, contentLength ->
+        WebView.setDownloadListener { url, userAgent, contentDisposition, mimeType, contentLength ->
             val request = DownloadManager.Request(Uri.parse(url))
             request.setMimeType(mimeType)
             request.addRequestHeader("User-Agent", userAgent)
@@ -193,7 +193,7 @@ class MainActivity : AppCompatActivity() {
             val dm = getSystemService(DOWNLOAD_SERVICE) as DownloadManager
             dm.enqueue(request)
             Toast.makeText(this, "开始下载...", Toast.LENGTH_SHORT).show()
-        ) }
+        }
 
         webView.webChromeClient = object : WebChromeClient() {
             override fun onProgressChanged(view: WebView?, newProgress: Int) {
