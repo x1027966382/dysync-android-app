@@ -2,6 +2,8 @@ package com.example.dysync
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.ClipboardManager
+import android.content.ClipData
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
@@ -188,7 +190,7 @@ class MainActivity : AppCompatActivity() {
                 request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, Uri.parse(url).lastPathSegment ?: "download")
                 val dm = getSystemService(DOWNLOAD_SERVICE) as DownloadManager
                 dm.enqueue(request)
-                Toast.makeText(this, "开始下载...", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@MainActivity, "开始下载...", Toast.LENGTH_SHORT).show()
             }
         })
 
@@ -265,7 +267,7 @@ class MainActivity : AppCompatActivity() {
         val hitTest = binding.webView.getHitTestResult()
         if (hitTest.type == WebView.HitTestResult.ANCHOR_TYPE || hitTest.type == WebView.HitTestResult.IMAGE_TYPE) {
             menu?.add(0, 1, 0, "复制链接").setOnMenuItemClickListener {
-                val clipboard = ContextCompat.getClipboardManager(this@MainActivity)
+                val clipboard = this@MainActivity.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                 clipboard.setPrimaryClip(ClipData.newPlainText("url", hitTest.extra))
                 Toast.makeText(this@MainActivity, "已复制", Toast.LENGTH_SHORT).show()
                 true
