@@ -189,7 +189,7 @@ class MainActivity : AppCompatActivity() {
                 dm.enqueue(request)
                 Toast.makeText(this, "开始下载...", Toast.LENGTH_SHORT).show()
             }
-        }
+        })
 
         webView.webChromeClient = object : WebChromeClient() {
             override fun onProgressChanged(view: WebView?, newProgress: Int) {
