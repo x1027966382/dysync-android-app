@@ -7,6 +7,7 @@ import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import androidx.core.content.ContextCompat
 import android.os.Environment
 import android.app.DownloadManager
 import android.preference.PreferenceManager
@@ -175,8 +176,8 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-        WebView.setDownloadListener(object : DownloadListener {
-            override fun onDownloadRequested(url: String, userAgent: String, contentDisposition: String, mimeType: String, contentLength: Long) {
+        binding.webView.setDownloadListener(object : DownloadListener {
+            override fun onDownloadStart(url: String, userAgent: String, contentDisposition: String, mimeType: String, contentLength: Long) {
                 val request = DownloadManager.Request(Uri.parse(url))
                 request.setMimeType(mimeType)
                 request.addRequestHeader("User-Agent", userAgent)
@@ -264,10 +265,9 @@ class MainActivity : AppCompatActivity() {
         val hitTest = binding.webView.getHitTestResult()
         if (hitTest.type == WebView.HitTestResult.ANCHOR_TYPE || hitTest.type == WebView.HitTestResult.IMAGE_TYPE) {
             menu?.add(0, 1, 0, "复制链接").setOnMenuItemClickListener {
-                android.content.ClipboardManager.from(this).setPrimaryClip(
-                    android.content.ClipData.newPlainText("url", hitTest.extra)
-                )
-                Toast.makeText(this, "已复制", Toast.LENGTH_SHORT).show()
+                val clipboard = ContextCompat.getClipboardManager(this@MainActivity)
+                clipboard.setPrimaryClip(ClipData.newPlainText("url", hitTest.extra))
+                Toast.makeText(this@MainActivity, "已复制", Toast.LENGTH_SHORT).show()
                 true
             }
         }
