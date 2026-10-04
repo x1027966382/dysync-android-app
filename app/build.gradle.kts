@@ -18,11 +18,20 @@ android {
         vectorDrawables.useSupportLibrary = true
     }
 
+    signingConfigs {
+        create("ciRelease") {
+            storeFile = file(System.getenv("CI_KEYSTORE_PATH") ?: "ci-release.keystore")
+            storePassword = System.getenv("CI_KEYSTORE_PASSWORD") ?: "dysync123"
+            keyAlias = "dysync"
+            keyPassword = System.getenv("CI_KEY_PASSWORD") ?: "dysync123"
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-            signingConfig = signingConfigs.getByName("debug")
+            signingConfig = signingConfigs.getByName("ciRelease")
         }
         debug {
             isDebuggable = true
