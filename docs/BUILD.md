@@ -169,6 +169,17 @@ android {
 - 删除 manifest 中的 `package` 属性
 - `base-config` 的 `cleartextTrafficPermitted` 改为 `true`
 
+### APK 安装后打不开
+
+**症状**：APK 安装后点击图标无反应（小米 15 / HyperOS / Android 17）。
+
+**原因**：`signingConfig = signingConfigs.getByName("debug")` 在 CI 环境下找不到 `debug.keystore`，生成的 APK **完全没有签名**（无 V1/V2/V3），导致系统拒绝启动。
+
+**修复**（commit `01b3932`）：
+- 新增 `signingConfigs.ciRelease`，通过环境变量配置密钥
+- CI 在构建前用 `keytool` 生成签名密钥
+- `gradle assembleRelease` 时传入 `CI_KEYSTORE_PATH` 等环境变量
+
 ### 检查 APK 内容
 
 ```bash
