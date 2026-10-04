@@ -266,7 +266,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreateContextMenu(menu, v, menuInfo)
         val hitTest = binding.webView.getHitTestResult()
         if (hitTest.type == WebView.HitTestResult.ANCHOR_TYPE || hitTest.type == WebView.HitTestResult.IMAGE_TYPE) {
-            menu?.add(0, 1, 0, "复制链接").setOnMenuItemClickListener {
+            val menuItem = menu?.add(0, 1, 0, "复制链接")
+            menuItem?.setOnMenuItemClickListener {
                 val clipboard = this@MainActivity.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                 clipboard.setPrimaryClip(ClipData.newPlainText("url", hitTest.extra))
                 Toast.makeText(this@MainActivity, "已复制", Toast.LENGTH_SHORT).show()
