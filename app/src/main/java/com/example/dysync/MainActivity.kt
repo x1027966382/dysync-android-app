@@ -8,7 +8,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
-import android.download.DownloadManager
+import android.app.DownloadManager
 import android.preference.PreferenceManager
 import android.util.Log
 import android.view.KeyEvent
@@ -175,18 +175,20 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-        WebView.setDownloadListener { url, userAgent, contentDisposition, mimeType, contentLength ->
-            val request = DownloadManager.Request(Uri.parse(url))
-            request.setMimeType(mimeType)
-            request.addRequestHeader("User-Agent", userAgent)
-            request.setTitle(contentDisposition ?: "下载文件")
-            request.setDescription("来自抖小云")
-            request.allowScanningByMediaScanner()
-            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-            request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, Uri.parse(url).lastPathSegment ?: "download")
-            val dm = getSystemService(DOWNLOAD_SERVICE) as DownloadManager
-            dm.enqueue(request)
-            Toast.makeText(this, "开始下载...", Toast.LENGTH_SHORT).show()
+        WebView.setDownloadListener(object : DownloadListener {
+            override fun onDownloadRequested(url: String, userAgent: String, contentDisposition: String, mimeType: String, contentLength: Long) {
+                val request = DownloadManager.Request(Uri.parse(url))
+                request.setMimeType(mimeType)
+                request.addRequestHeader("User-Agent", userAgent)
+                request.setTitle(contentDisposition ?: "下载文件")
+                request.setDescription("来自抖小云")
+                request.allowScanningByMediaScanner()
+                request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+                request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, Uri.parse(url).lastPathSegment ?: "download")
+                val dm = getSystemService(DOWNLOAD_SERVICE) as DownloadManager
+                dm.enqueue(request)
+                Toast.makeText(this, "开始下载...", Toast.LENGTH_SHORT).show()
+            }
         }
 
         webView.webChromeClient = object : WebChromeClient() {
